@@ -1,0 +1,33 @@
+[
+    {
+        "display_name": "Overview",
+        "route": "/",
+        "icon": "bx bxs-dashboard"
+        
+    },
+    {
+        "display_name": "All Task",
+        "route": "/alltask",
+        "icon": "bx bx-task"
+        
+    },
+    {
+        "display_name": "Employees",
+        "route": "/employee",
+        "icon": "bx bxs-user-badge"
+        
+    },
+    {
+        "display_name": "Rewards",
+        "route": "/reward",
+        "icon": "bx bxs-gift"
+        
+    },
+    {
+        "display_name": "Placezone",
+        "route": "/placezone",
+        "icon": "bx bxs-map-pin"
+        
+    }
+    
+]

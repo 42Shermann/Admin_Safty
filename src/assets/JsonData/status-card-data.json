@@ -1,0 +1,25 @@
+[
+    {
+        "icon": "bx bxs-report",
+        "count": "$2,000",
+        "title": "All Tasks"
+        
+    },
+    {
+        "icon": "bx bx-task",
+        "count": "2,001",
+        "title": "Completed Task"
+    },
+    {
+        "icon": "bx bx-alarm-exclamation",
+        "count": "$2,632",
+        "title": "In-progress"
+        
+    },
+    {
+        "icon": "bx bx-task-x",
+        "count": "1,711",
+        "title": "In-Completed Task"
+        
+    }
+]

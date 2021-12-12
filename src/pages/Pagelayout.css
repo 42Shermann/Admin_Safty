@@ -1,0 +1,39 @@
+.reward {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.newProduct {
+    flex: 4;
+    align-items: center;
+  }
+  
+  .addProductForm {
+    margin-top: 10px;
+  }
+  
+  .addProductItem {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .addProductItem > label {
+    color: gray;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .addProductItem > input {
+    padding: 10px;
+  }
+  
+  .addProductItem > select {
+    padding: 10px;
+  }
+  
+  
+
+  
