@@ -15,7 +15,7 @@ export default class Editplace extends Component{
     }
 
     componentDidMount() {
-        axios.get(`${api}/api/zone/edit-place/ `+ this.props.match.params.id).then(res => {
+        axios.get(`${api}/api/zone/edit-place/${this.props.match.params.id}`).then(res => {
             this.setState({
                 ZoneID: res.data.ZoneID,
                 ZoneName: res.data.ZoneName,
@@ -80,7 +80,7 @@ export default class Editplace extends Component{
                 
                 <div className="newUserItem">
                     <label>Description</label>
-                    <input type="password" placeholder="description" value={this.state.Desc}  onChange={this.onChangeDescription} required/>
+                    <input type="text" placeholder="description" value={this.state.Desc}  onChange={this.onChangeDescription} required/>
                 </div>
                
                 <div className="newUserItem">

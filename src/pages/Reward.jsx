@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import api from '../components/api/api';
 import axios from 'axios';
 import "./Pagelayout.css";
 
@@ -16,9 +17,31 @@ export default class Reward extends Component {
             Name: '',
             Stock: '',
             Sequence: '',
-            Active: ''
+            Active: '',
+            image:'',
+            url:''
         }
         this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+     uploadImage = async () => {
+        const data = new FormData()
+        data.append("file", this.state.image)
+        data.append("upload_preset", "saftyReport64")
+        data.append("cloud_name","dikzhc5yg")
+
+        fetch("https://api.cloudinary.com/v1_1/dikzhc5yg/image/upload",{
+        method:"post",
+            body: data
+            })
+        .then(
+            resp => resp.json())
+        .then(
+            data => {
+                this.setState({ url: data.url })
+                console.log(this.state.url)
+        })
+        .catch(err => console.log(err))
     }
 
 
@@ -51,21 +74,27 @@ export default class Reward extends Component {
         e.preventDefault();
 
         const rewardObject = {
-            files: this.state.files,
+            url: this.state.url,
             Name: this.state.Name,
             Stock: this.state.Stock,
             Sequence: this.state.Sequence,
             Active: this.state.Active
-        };
+        }
 
-        axios.post('http://localhost:9999/create-reward', rewardObject).then(res => console.log(res.data));
+        this.uploadImage()
+        .then(
+        axios.post(`${api}/api/reward/create-reward`, rewardObject))
+        .then(
+            res => console.log(res.data));
 
         this.setState({
             files: '',
             Name: '',
             Stock: '',
             Sequence: '',
-            Active: ''
+            Active: '',
+            image:'',
+            url:''
         })
     }
     render() {
@@ -82,7 +111,7 @@ export default class Reward extends Component {
                                 <form className="addProductForm" onSubmit={this.onSubmit}>
                                     <div className="addProductItem">
                                         <label>Select File:</label>
-                                        <input type="file" className="form-control" name="upload_file" onChange={this.handleInputChange} />
+                                        <input type="file" onChange= {(e)=> this.setState({image: e.target.files[0]})} /> 
                                     </div>
                                     <div className="addProductItem">
                                         <label>Name</label>

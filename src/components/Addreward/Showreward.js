@@ -20,7 +20,7 @@ export default class Showreward extends Component {
                 <h1 >{this.props.obj.Sequence} </h1>
                 <h2 >{this.props.obj.Name}</h2>
                 <div>
-                    <img style={{ width: '30%' }} src={this.props.obj.files} />
+                    <img style={{ width: '30%' }} src={this.props.obj.url} />
                 </div>
                 <h4>Stock: {this.props.obj.Stock}  Active: {this.props.obj.Active}</h4>
                 <button className="button-status2" type="submit" onClick={this.deleteReward}>Delete</button> 

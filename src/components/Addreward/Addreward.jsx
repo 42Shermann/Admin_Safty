@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import './Addreward.css';
 import Showreward from './Showreward'
+import api from '../api/api';
 export default  class Addreward extends Component {
     constructor(props){
         super(props);
@@ -11,7 +12,7 @@ export default  class Addreward extends Component {
         }
     }
     componentDidMount() {
-        axios.get('http://localhost:9999/listreward')
+        axios.get(`${api}/api/reward/listreward`)
              .then(res => {
                  this.setState({
                      reward: res.data
