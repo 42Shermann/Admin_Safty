@@ -1,31 +1,32 @@
 [
+
     {
         "display_name": "Overview",
-        "route": "/",
+        "path": "/",
         "icon": "bx bxs-dashboard"
         
     },
     {
         "display_name": "All Task",
-        "route": "/alltask",
+        "path": "/alltask",
         "icon": "bx bx-task"
         
     },
     {
         "display_name": "Employees",
-        "route": "/employee",
+        "path": "/employee",
         "icon": "bx bxs-user-badge"
         
     },
     {
         "display_name": "Rewards",
-        "route": "/reward",
+        "path": "/reward",
         "icon": "bx bxs-gift"
         
     },
     {
         "display_name": "Placezone",
-        "route": "/placezone",
+        "path": "/placezone",
         "icon": "bx bxs-map-pin"
         
     }

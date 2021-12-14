@@ -1,41 +1,135 @@
-import React, {useEffect} from 'react'
-
+import React from 'react'
 import './layout.css'
+//import Sidebar from '../sidebar/Sidebar'
+//import TopNav from '../topnav/TopNav'
+//import Routes from '../Routes'
+import { BrowserRouter, Route,Switch, Routes } from 'react-router-dom'
+//import { useSelector, useDispatch } from 'react-redux'
+//import ThemeAction from '../../redux/actions/ThemeAction'
+import Dashboard from '../../pages/Dashboard'
+import Alltask from '../../pages/AllTask'
+import Employees from '../../pages/Employee'
+import RewardV2 from '../../pages/RewardV2'
+import Placezone from '../../pages/Placezone'
+import Editplace from '../../pages/AdjustPlace/Editplace'
+import Login   from '../../pages/Auth/Login'
 
-import Sidebar from '../sidebar/Sidebar'
-import TopNav from '../topnav/TopNav'
-import Routes from '../Routes'
+import { AuthContext } from '../../context/dataContext'
+import api from '../api/api'
 
-import { BrowserRouter, Route } from 'react-router-dom'
+function Layout() {
 
-import { useSelector, useDispatch } from 'react-redux'
+    const [state, dispatch] = React.useReducer(
+        (prevState, action) => {
+          switch (action.type) {
+            case 'RESTORE_TOKEN':
+              return {
+                ...prevState,
+                userToken: action.token,
+                userProfile: action.data,
+                isLoading: false,
+              };
+            case 'SIGN_IN':
+              return {
+                ...prevState,
+                isSignout: false,
+                userToken: action.token,
+                userProfile: action.data,
+              };
+            case 'SIGN_OUT':
+              return {
+                ...prevState,
+                isSignout: true,
+                userToken: null,
+                userProfile: {
+                  name:'',
+                  username:'',
+                  position:'',
+                  phone:'',
+                  email:''
+                },
+              };
+            case 'UPDATE':
+              return {
+                ...prevState,
+                userProfile: action.data,
+                userToken: action.token,
+              }
+          }
+        },
+        {
+          isLoading: true,
+          isSignout: false,
+          userToken: null,
+          userProfile: {
+            name:'',
+            username:'',
+            position:'',
+            phone:'',
+            email:''
+          },
+        }
+      );
 
-import ThemeAction from '../../redux/actions/ThemeAction'
+      const authContext = React.useMemo(
+        () => ({
+    
+          signIn: async data => {
+            try{
+            const login = await fetch(`${api}/api/auth/login`, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                email: data.email,
+                password: data.password
+              })
+            });
+            
+            const response = await login.json();
+    
+            if (response.success === true) {
+              console.log(response.data);
+              dispatch({ type: 'SIGN_IN', token: response.token, data: response.data })
+              return response;
+            }
+            else if (response.success === false){
+              return response;
+            };
+          }catch(e){
+            console.log(e);
+          }
+          },
+    
+          signOut: () => {
+            dispatch({ type: 'SIGN_OUT' });
+          },
+        }),
+        []
+      );
 
-const Layout = () => {
-
-    const themeReducer = useSelector(state => state.ThemeReducer)
-
-
-
-    useEffect(() => {
-       
-    },[])
 
     return (
+        <AuthContext.Provider value={authContext}>
         <BrowserRouter>
-            <Route render={(props) => (
-                <div className={`layout ${themeReducer.mode} ${themeReducer.color}`}>
-                    <Sidebar {...props}/>
-                    <div className="layout__content">
-                        <TopNav/>
-                        <div className="layout__content-main">
-                            <Routes/>
-                        </div>
-                    </div>
-                </div>
-            )}/>
+        {state.userToken === null ?
+        <Routes>
+            <Route path='/' exact  element={<Login />}/>
+        </Routes>    
+        :
+        <Routes>
+            <Route index path='/'  element={<Dashboard />}/>
+            <Route path='/alltask' element={<Alltask />}/>
+            <Route path='/employee' element={<Employees />}/>
+            <Route path='/Reward' element={<RewardV2 />}/>
+            <Route path='/placezone' element={<Placezone />}/>
+            <Route path='/Editplace/:id' element={<Editplace />}/>
+        </Routes>
+        }
         </BrowserRouter>
+        </AuthContext.Provider>
     )
 }
 

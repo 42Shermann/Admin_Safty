@@ -1,9 +1,17 @@
 import React, {useState} from 'react';
 import { Formik, useFormik } from 'formik';
+import { Link } from 'react-router-dom'
 import Addreward from '../components/Addreward/Addreward'
 import api from '../components/api/api';
 import axios from 'axios';
 import "./Pagelayout.css";
+
+import logo from '../assets/images/logo_AOT.png'
+import sidebar_items from '../../src/assets/JsonData/sidebar_routes.json'
+import '../components/sidebar/Sidebar';
+import SidebarItem from '../components/sidebar/SidebarItem';
+import Topnav from '../components/topnav/TopNav'; 
+
 
 function RewardV2(props) {
 
@@ -78,11 +86,37 @@ function RewardV2(props) {
 
     return (
         <div>
+
+
+
+<div className="layout__content">
+                      
+        <div className="layout__content-main">
+        <Topnav />
+        <div className='sidebar'>
+            <div className="sidebar__logo">
+                <img src={logo} alt="company logo" />
+            </div>
+            {
+                sidebar_items.map((item, index) => (
+                    <Link to={item.path} key={index}>
+                        <SidebarItem
+                            title={item.display_name}
+                            icon={item.icon}
+                            
+                        />
+                    </Link>
+                ))
+            }
+        </div>
+
+
             <h1 className="page-header">
                 Reward
             </h1>
-            <div className="row">
+ 
             <form className="addProductForm" onSubmit={formik.handleSubmit}>
+            <div className="row">
                 {/*First Reward*/}
                 <div className="col-4">
                     <div className="card"  >
@@ -150,7 +184,7 @@ function RewardV2(props) {
                 <div className="reward">
                     <button className="button-status4" type="submit">Create</button>
                 </div>
-       
+                </div>
                 </form>
                 <div className="col-12">
                     <div className="card">
@@ -162,7 +196,11 @@ function RewardV2(props) {
                     </div>
                 </div>
                 
-            </div>
+
+</div>  
+
+</div>  
+
         </div>
     )
 }

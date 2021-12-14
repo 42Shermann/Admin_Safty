@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
-
 import Table from 'react-bootstrap/Table';
-
+import { Link } from 'react-router-dom'
 //import customerList from '../assets/JsonData/customers-list.json'
 
 import StatusCard from '../components/status-card/StatusCard'
@@ -12,12 +11,25 @@ import Alltaskdetail from '../components/Alltaskdetail/Alltaskdetail'
 import axios from 'axios';
 import Showalltask from '../components/Showalltask/Showalltask';
 
+import logo from '../assets/images/logo_AOT.png'
+import sidebar_items from '../../src/assets/JsonData/sidebar_routes.json'
+import '../components/sidebar/Sidebar';
+import SidebarItem from '../components/sidebar/SidebarItem';
+import Topnav from '../components/topnav/TopNav'; 
+
+
 export default class AllTask extends Component{
     constructor(props) {
         super(props);
 
         this.state = {
-            place: []
+            place: {
+                reports:[],
+                AllTask:"",
+                completed:'',
+                incompleted:'',
+                inProgress:''
+            }
         }
     }
     componentDidMount() {
@@ -33,13 +45,35 @@ export default class AllTask extends Component{
     }
     DataTable = () =>{
         
-       return this.state.place.map((res, i) => {
+       return this.state.place.reports.map((res, i) => {
            return <Showalltask obj={res} key={i} />
         })
     }
     render(){
     return (
         <div>
+
+<div className="layout__content">
+                      
+                      <div className="layout__content-main">
+                      <Topnav />
+                      <div className='sidebar'>
+                          <div className="sidebar__logo">
+                              <img src={logo} alt="company logo" />
+                          </div>
+                          {
+                              sidebar_items.map((item, index) => (
+                                  <Link to={item.path} key={index}>
+                                      <SidebarItem
+                                          title={item.display_name}
+                                          icon={item.icon}
+                                          
+                                      />
+                                  </Link>
+                              ))
+                          }
+                      </div>
+
             <h1 className="page-header">
                 All Task
             </h1>
@@ -47,17 +81,30 @@ export default class AllTask extends Component{
                 <div className="col-12">
                     <Alltaskdetail/>
                 </div>
-                {
-                            statusCards.map((item, index) => (
-                                <div className="col-3" key={index}>
-                                    <StatusCard
-                                        icon={item.icon}
-                                        count={item.count}
-                                        title={item.title}
-                                    />
-                                </div>
-                            ))
-                        }
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{this.state.place.AllTask}</h4>
+                            <h3>All Task</h3>
+                        </div>
+                </div>
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{this.state.place.completed}</h4>
+                            <h3>Completed</h3>
+                        </div>
+                </div>
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{this.state.place.incompleted}</h4>
+                            <h3>Incomplete</h3>
+                        </div>
+                </div>
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{this.state.place.inProgress}</h4>
+                            <h3>In Progress</h3>
+                        </div>
+                </div>
             
                 <div className="col-12">
                     <div className="card">
@@ -84,6 +131,9 @@ export default class AllTask extends Component{
                 </div>
             </div>
         </div>
+        </div>  
+
+</div>
     )
 }
 }

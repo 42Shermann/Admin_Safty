@@ -15,6 +15,11 @@ import Badge from '../components/badge/Badge'
 
 import statusCards from '../assets/JsonData/status-card-data.json'
 
+import logo from '../assets/images/logo_AOT.png'
+import sidebar_items from '../../src/assets/JsonData/sidebar_routes.json'
+import '../components/sidebar/Sidebar';
+import SidebarItem from '../components/sidebar/SidebarItem';
+import Topnav from '../components/topnav/TopNav'; 
 
 const chartOptions = {
     series: [{
@@ -170,6 +175,31 @@ const Dashboard = () => {
 
     return (
                     <div>
+
+
+
+
+<div className="layout__content">
+                      
+        <div className="layout__content-main">
+        <Topnav />
+        <div className='sidebar'>
+            <div className="sidebar__logo">
+                <img src={logo} alt="company logo" />
+            </div>
+            {
+                sidebar_items.map((item, index) => (
+                    <Link to={item.path} key={index}>
+                        <SidebarItem
+                            title={item.display_name}
+                            icon={item.icon}
+                            
+                        />
+                    </Link>
+                ))
+            }
+        </div>
+
                         <h1 className="page-header">Overview</h1>
                         <div className="row">
                             <div className="col-12">
@@ -261,6 +291,10 @@ const Dashboard = () => {
                             
                         </div>
                     </div>
+                    </div>  
+
+                    </div> 
+
     )  
 }
 

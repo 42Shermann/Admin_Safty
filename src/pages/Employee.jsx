@@ -4,6 +4,12 @@ import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import EmployeeTableRow from '../components/EmployeeTableRow'
 //import customerList from '../assets/JsonData/customers-list.json'
+import { Link } from 'react-router-dom'
+import logo from '../assets/images/logo_AOT.png'
+import sidebar_items from '../../src/assets/JsonData/sidebar_routes.json'
+import '../components/sidebar/Sidebar';
+import SidebarItem from '../components/sidebar/SidebarItem';
+import Topnav from '../components/topnav/TopNav'; 
 
 import '../components/table/table.css'
 export default class  Employee extends Component {
@@ -36,6 +42,28 @@ export default class  Employee extends Component {
     render() {
         return (
             <div>
+<div className="layout__content">
+                      
+        <div className="layout__content-main">
+        <Topnav />
+        <div className='sidebar'>
+            <div className="sidebar__logo">
+                <img src={logo} alt="company logo" />
+            </div>
+            {
+                sidebar_items.map((item, index) => (
+                    <Link to={item.path} key={index}>
+                        <SidebarItem
+                            title={item.display_name}
+                            icon={item.icon}
+                            
+                        />
+                    </Link>
+                ))
+            }
+        </div>
+
+
             <h1> Employee</h1>
             <div className="table-warpper card">
             
@@ -59,6 +87,11 @@ export default class  Employee extends Component {
                 
             </div>
             </div>
+            
+</div>  
+
+</div>  
+
         )
     }
 }
