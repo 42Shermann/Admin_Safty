@@ -6,6 +6,7 @@ import './layout.css'
 import { BrowserRouter, Route,Switch, Routes } from 'react-router-dom'
 //import { useSelector, useDispatch } from 'react-redux'
 //import ThemeAction from '../../redux/actions/ThemeAction'
+import axios from 'axios';
 import Dashboard from '../../pages/Dashboard'
 import Alltask from '../../pages/AllTask'
 import Employees from '../../pages/Employee'
@@ -16,6 +17,7 @@ import Login   from '../../pages/Auth/Login'
 
 import { AuthContext } from '../../context/dataContext'
 import api from '../api/api'
+import { useState } from 'react'
 
 function Layout() {
 
@@ -71,6 +73,26 @@ function Layout() {
         }
       );
 
+      const [data, setData] = useState({
+        reports:[],
+        AllTask:"",
+        completed:'',
+        incompleted:'',
+        inProgress:''
+      });
+
+      const fetchData = () =>{
+        axios.get(`${api}/api/report/`)
+        .then(function (response) {
+          setData(response);
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+      }
+
       const authContext = React.useMemo(
         () => ({
     
@@ -92,6 +114,7 @@ function Layout() {
     
             if (response.success === true) {
               console.log(response.data);
+              fetchData();
               dispatch({ type: 'SIGN_IN', token: response.token, data: response.data })
               return response;
             }
@@ -121,7 +144,7 @@ function Layout() {
         :
         <Routes>
             <Route index path='/'  element={<Dashboard />}/>
-            <Route path='/alltask' element={<Alltask />}/>
+            <Route path='/alltask' element={<Alltask place={data.data} />}/>
             <Route path='/employee' element={<Employees />}/>
             <Route path='/Reward' element={<RewardV2 />}/>
             <Route path='/placezone' element={<Placezone />}/>

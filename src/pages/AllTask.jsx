@@ -32,20 +32,10 @@ export default class AllTask extends Component{
             }
         }
     }
-    componentDidMount() {
-        axios.get('http://192.168.1.40:3001/api/report')
-             .then(res => {
-                 this.setState({
-                     place: res.data
-                 })
-             })
-             .catch((error) => {
-                 console.log(error)
-             })
-    }
+ 
     DataTable = () =>{
         
-       return this.state.place.reports.map((res, i) => {
+       return this.props.place.reports.map((res, i) => {
            return <Showalltask obj={res} key={i} />
         })
     }
@@ -81,31 +71,46 @@ export default class AllTask extends Component{
                 <div className="col-12">
                     <Alltaskdetail/>
                 </div>
+                <div className='row'>
+                
+                <div className='col-3'>
                 <div className='status-card'>
                         <div className="status-card__info">
-                            <h4>{this.state.place.AllTask}</h4>
+                            <h4>{this.props.place.AllTask}</h4>
                             <h3>All Task</h3>
                         </div>
                 </div>
+                </div>
+
+                <div className='col-3'>
                 <div className='status-card'>
                         <div className="status-card__info">
-                            <h4>{this.state.place.completed}</h4>
+                            <h4>{this.props.place.completed}</h4>
                             <h3>Completed</h3>
                         </div>
                 </div>
+                </div>
+
+                <div className='col-3'>
                 <div className='status-card'>
                         <div className="status-card__info">
-                            <h4>{this.state.place.incompleted}</h4>
+                            <h4>{this.props.place.incompleted}</h4>
                             <h3>Incomplete</h3>
                         </div>
                 </div>
+                </div>
+
+                <div className='col-3'>
                 <div className='status-card'>
                         <div className="status-card__info">
-                            <h4>{this.state.place.inProgress}</h4>
+                            <h4>{this.props.place.inProgress}</h4>
                             <h3>In Progress</h3>
                         </div>
                 </div>
-            
+                </div>
+
+                </div> 
+                <div className='row'>      
                 <div className="col-12">
                     <div className="card">
                         <div className="card__body">
@@ -129,6 +134,7 @@ export default class AllTask extends Component{
                         </div>
                     </div>
                 </div>
+                </div>  
             </div>
         </div>
         </div>  
