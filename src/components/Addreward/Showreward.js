@@ -15,17 +15,35 @@ export default class Showreward extends Component {
     
     render() {
         return (
-
-            <div>
-                <h1 >{this.props.obj.Sequence} </h1>
-                <h2 >{this.props.obj.Name}</h2>
+            <div className='row'>
+            <div className='col-4'>
+                <h1 >First Reward</h1>
+                <h2 >{this.props.obj.firstName}</h2>
                 <div>
-                    <img style={{ width: '30%' }} src={this.props.obj.url} />
+                    <img style={{ width: '30%' }} src={this.props.obj.firstUrl} />
                 </div>
-                <h4>Stock: {this.props.obj.Stock}  Active: {this.props.obj.Active}</h4>
                 <button className="button-status2" type="submit" onClick={this.deleteReward}>Delete</button> 
 
-            </div >
+            </div>
+            <div className='col-4'>
+                <h1 >Second Reward</h1>
+                <h2 >{this.props.obj.secondName}</h2>
+                <div>
+                    <img style={{ width: '30%' }} src={this.props.obj.secondUrl} />
+                </div>
+                <button className="button-status2" type="submit" onClick={this.deleteReward}>Delete</button> 
+
+            </div>
+            <div className='col-4'>
+                <h1 >Third Reward</h1>
+                <h2 >{this.props.obj.thirdName}</h2>
+                <div>
+                    <img style={{ width: '30%' }} src={this.props.obj.thirdUrl} />
+                </div>
+                <button className="button-status2" type="submit" onClick={this.deleteReward}>Delete</button> 
+
+            </div>
+            </div>
         )
     }
 }

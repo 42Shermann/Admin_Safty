@@ -3,12 +3,10 @@ import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 
 import Chart from 'react-apexcharts'
-
+import { Table } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
 import StatusCard from '../components/status-card/StatusCard'
-
-import Table from '../components/table/Table'
 
 import Badge from '../components/badge/Badge'
 
@@ -169,16 +167,12 @@ const renderOrderBody = (item, index) => (
     </tr>
 )
 
-const Dashboard = () => {
+const Dashboard = ({place, emp}) => {
 
     const themeReducer = useSelector(state => state.ThemeReducer.mode)
 
     return (
-                    <div>
-
-
-
-
+<div>
 <div className="layout__content">
                       
         <div className="layout__content-main">
@@ -203,21 +197,47 @@ const Dashboard = () => {
                         <h1 className="page-header">Overview</h1>
                         <div className="row">
                             <div className="col-12">
-                                <div className="row">
-                                    {
-                                        statusCards.map((item, index) => (
-                                            <div className="col-3" key={index}>
-                                                <StatusCard
-                                                    icon={item.icon}
-                                                    count={item.count}
-                                                    title={item.title}
-                                                />
-                                            </div>
-                                        ))
-                                    }
-                                </div>
+                            <div className='row'>
+                
+                <div className='col-3'>
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{place.AllTask}</h4>
+                            <h3>All Task</h3>
+                        </div>
+                </div>
+                </div>
+
+                <div className='col-3'>
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{place.completed}</h4>
+                            <h3>Completed</h3>
+                        </div>
+                </div>
+                </div>
+
+                <div className='col-3'>
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{place.incompleted}</h4>
+                            <h3>Incomplete</h3>
+                        </div>
+                </div>
+                </div>
+
+                <div className='col-3'>
+                <div className='status-card'>
+                        <div className="status-card__info">
+                            <h4>{place.inProgress}</h4>
+                            <h3>In Progress</h3>
+                        </div>
+                </div>
+                </div>
+
+                </div> 
                             </div>
-                            <div className="col-6">
+                            <div className="col-12">
                                 <div className="card full-height">
                                     {/* chart */}
                                     <Chart
@@ -234,36 +254,34 @@ const Dashboard = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="col-6">
-                                <div className="card">
-                                    <div className="card__header">
-                                        <h3>Task History</h3>
-                                    </div>
-                                    <div className="card__body">
-                                        <Table
-                                            headData={topCustomers.head}
-                                            renderHead={(item, index) => renderCusomerHead(item, index)}
-                                            bodyData={topCustomers.body}
-                                            renderBody={(item, index) => renderCusomerBody(item, index)}
-                                        />
-                                    </div>
-                                    <div className="card__footer">
-                                        <Link to='/alltask/'>view all</Link>
-                                    </div>
-                                </div>
-                            </div>
+    
                             <div className="col-6">
                                 <div className="card">
                                     <div className="card__header">
                                         <h3>Recent Activity</h3>
                                     </div>
                                     <div className="card__body">
-                                        <Table
-                                            headData={latestOrders.header}
-                                            renderHead={(item, index) => renderOrderHead(item, index)}
-                                            bodyData={latestOrders.body}
-                                            renderBody={(item, index) => renderOrderBody(item, index)}
-                                        />
+                                    <Table>
+                                        <thead>
+                                            <tr>
+                                            <th>Topic</th>
+                                            <th>Location</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {place.reports.slice(0, 5).map(item =>(
+                                                <tr key={item.id}>
+                                                    <td>{item.title}</td>
+                                                    <td>{item.content}</td>
+                                                    <td>{item.date}</td>
+                                                    <td>{item.isFinished}</td>
+                                                </tr>
+                                            ))
+                                            }
+                                        </tbody>
+                                        </Table>
                                     </div>
                                     <div className="card__footer">
                                         <Link to='/alltask/'>view all</Link>
@@ -276,12 +294,23 @@ const Dashboard = () => {
                                         <h3>Employees</h3>
                                     </div>
                                     <div className="card__body">
-                                        <Table
-                                            headData={topCustomers.head}
-                                            renderHead={(item, index) => renderCusomerHead(item, index)}
-                                            bodyData={topCustomers.body}
-                                            renderBody={(item, index) => renderCusomerBody(item, index)}
-                                        />
+                                    <Table>
+                                        <thead>
+                                            <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {emp.slice(0, 7).map(item =>(
+                                                <tr key={item.id}>
+                                                    <td>{item.name}</td>
+                                                    <td>{item.position}</td>
+                                                </tr>
+                                            ))
+                                            }
+                                        </tbody>
+                                        </Table>
                                     </div>
                                     <div className="card__footer">
                                         <Link to='/employee/'>view all</Link>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import './layout.css'
 //import Sidebar from '../sidebar/Sidebar'
 //import TopNav from '../topnav/TopNav'
@@ -13,11 +13,12 @@ import Employees from '../../pages/Employee'
 import RewardV2 from '../../pages/RewardV2'
 import Placezone from '../../pages/Placezone'
 import Editplace from '../../pages/AdjustPlace/Editplace'
+import Edittask from '../../pages/Edittask';
 import Login   from '../../pages/Auth/Login'
 
-import { AuthContext } from '../../context/dataContext'
+import { AuthContext, DataContext } from '../../context/dataContext'
 import api from '../api/api'
-import { useState } from 'react'
+
 
 function Layout() {
 
@@ -81,15 +82,30 @@ function Layout() {
         inProgress:''
       });
 
+      const [Employee, setEmp] = useState([]);
+
       const fetchData = () =>{
         axios.get(`${api}/api/report/`)
         .then(function (response) {
           setData(response);
+          fetchEmp();
           console.log(response.data);
+          dispatch({ type: 'SIGN_IN', token: response.token, data: response.data });
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+        })
+      }
+
+      const fetchEmp = () => {
+        axios.get('http://192.168.1.40:3001/api/auth/getAllUsers')
+        .then(res => {
+              setEmp(res.data);
+              console.log(res);
+            })
+        .catch((error) => {
+            console.log(error)
         })
       }
 
@@ -113,9 +129,8 @@ function Layout() {
             const response = await login.json();
     
             if (response.success === true) {
-              console.log(response.data);
               fetchData();
-              dispatch({ type: 'SIGN_IN', token: response.token, data: response.data })
+  
               return response;
             }
             else if (response.success === false){
@@ -136,22 +151,25 @@ function Layout() {
 
     return (
         <AuthContext.Provider value={authContext}>
+        <DataContext.Provider value={state}>
         <BrowserRouter>
-        {state.userToken === null ?
-        <Routes>
-            <Route path='/' exact  element={<Login />}/>
-        </Routes>    
-        :
-        <Routes>
-            <Route index path='/'  element={<Dashboard />}/>
-            <Route path='/alltask' element={<Alltask place={data.data} />}/>
-            <Route path='/employee' element={<Employees />}/>
-            <Route path='/Reward' element={<RewardV2 />}/>
-            <Route path='/placezone' element={<Placezone />}/>
-            <Route path='/Editplace/:id' element={<Editplace />}/>
-        </Routes>
-        }
+          {state.userToken === null ?
+          <Routes>
+              <Route path='/' exact  element={<Login />}/>
+          </Routes>    
+          :
+          <Routes>
+              <Route index path='/'  element={<Dashboard place={data.data} emp={Employee}/>}/>
+              <Route path='/alltask' element={<Alltask place={data.data} />}/>
+              <Route path='/employee' element={<Employees />}/>
+              <Route path='/Reward' element={<RewardV2 />}/>
+              <Route path='/placezone' element={<Placezone />}/>
+              <Route path='/Editplace/:id' element={<Editplace />}/>
+              <Route path='/EditTask/:id' element={<Edittask />} />
+          </Routes>
+          }
         </BrowserRouter>
+        </DataContext.Provider>
         </AuthContext.Provider>
     )
 }

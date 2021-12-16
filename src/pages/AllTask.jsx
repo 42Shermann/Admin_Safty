@@ -16,7 +16,7 @@ import sidebar_items from '../../src/assets/JsonData/sidebar_routes.json'
 import '../components/sidebar/Sidebar';
 import SidebarItem from '../components/sidebar/SidebarItem';
 import Topnav from '../components/topnav/TopNav'; 
-
+import { DataContext } from '../context/dataContext';
 
 export default class AllTask extends Component{
     constructor(props) {
@@ -33,6 +33,8 @@ export default class AllTask extends Component{
         }
     }
  
+    static contextType = DataContext;
+
     DataTable = () =>{
         
        return this.props.place.reports.map((res, i) => {
