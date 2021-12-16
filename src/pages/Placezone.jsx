@@ -9,6 +9,7 @@ import sidebar_items from '../../src/assets/JsonData/sidebar_routes.json'
 import '../components/sidebar/Sidebar';
 import SidebarItem from '../components/sidebar/SidebarItem';
 import Topnav from '../components/topnav/TopNav'; 
+import api from '../components/api/api';
 
 export default class Placezone extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ export default class Placezone extends Component {
         }
     }
     componentDidMount() {
-        axios.get('http://192.168.1.40:3001/api/zone')
+        axios.get(`${api}/api/zone`)
              .then(res => {
                  this.setState({
                      place: res.data

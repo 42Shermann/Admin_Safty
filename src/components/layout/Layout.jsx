@@ -99,7 +99,7 @@ function Layout() {
       }
 
       const fetchEmp = () => {
-        axios.get('http://192.168.1.40:3001/api/auth/getAllUsers')
+        axios.get(`${api}/api/auth/getAllUsers`)
         .then(res => {
               setEmp(res.data);
               console.log(res);

@@ -12,6 +12,7 @@ import SidebarItem from '../components/sidebar/SidebarItem';
 import Topnav from '../components/topnav/TopNav'; 
 
 import '../components/table/table.css'
+import api from '../components/api/api';
 export default class  Employee extends Component {
 
     constructor(props) {
@@ -22,7 +23,7 @@ export default class  Employee extends Component {
         }
     }
     componentDidMount() {
-        axios.get('http://192.168.1.40:3001/api/auth/getAllUsers')
+        axios.get(`${api}/api/auth/getAllUsers`)
              .then(res => {
                  this.setState({
                      employee: res.data
