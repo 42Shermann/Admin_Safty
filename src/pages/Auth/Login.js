@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../Auth/log_regis.css'
 import { useFormik } from 'formik';
 import { AuthContext } from '../../context/dataContext';
@@ -7,8 +7,11 @@ export default function Login(){
 
     const { signIn } = React.useContext(AuthContext);
 
+    const [isLoading, setLoading] = useState(false);
+
     const handleSubmit= async(data) =>{
         try {
+            setLoading(true);
             const res = await signIn(data);
           } catch (e) {
             console.log(e);
@@ -41,7 +44,13 @@ export default function Login(){
                     <i class="fas fa-lock"></i>
                     <input id='password' name='password' type="password" placeholder="Password" value={formik.values.password} onChange={formik.handleChange} required/>
                   </div>
+                  { isLoading ?
+                  <button type="button" class="btn solid" >
+                    Loading...
+                  </button>
+                  :
                   <input type="submit" value="Login" class="btn solid" />
+                  }
                   <p class="social-text">Or Sign in with social platforms</p>
 
                 </form>
